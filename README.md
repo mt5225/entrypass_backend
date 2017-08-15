@@ -1,1 +1,13 @@
 # entrypass demo
+
+## start server
+python app.py
+python srv.py
+
+## query door status
+curl -i -X GET http://localhost:9008/doorstatus
+
+## send dummy data
+python sender.py DoorClose
+python sender.py DoorOpen
+

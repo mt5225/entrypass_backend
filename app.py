@@ -4,12 +4,13 @@ from flask import request
 import logging
 from logging.handlers import RotatingFileHandler
 from flask_cors import CORS
+import sqlite3
 
 app = Flask(__name__, static_url_path='', static_folder='static')
 
 @app.route('/')
 def index():
-    return "Hello, World!"
+    return jsonify(msg='Hello, World!'), 200
 
 ## curl -i -H "Content-Type: application/json" -X POST -d '{"title":"Read a book"}' http://uinnova.com:9009/form
 @app.route('/form', methods=['POST'])
@@ -24,7 +25,20 @@ def dummy_api():
 
 @app.route('/doorstatus', methods=['GET'])
 def doorstatus():
-    return jsonify(door01='open'), 200
+    msg = {}
+    try:
+        conn = sqlite3.connect('./entrypass.db')
+        cur = conn.cursor()
+        cur.execute("SELECT rowid,* FROM live ORDER BY ROWID DESC LIMIT 1")
+        data = cur.fetchone()
+        msg=dict(zip(['ROWID', 'ETYPE','TRDATE','TRTIME','TRCODE','TRDESC', 'TRID', 'DEVNAME'], [x for x in data]))
+        conn.commit()
+    except sqlite3.Error, e:
+        print "Error %s:" % e.args[0]
+    finally:
+        if conn:
+            conn.close()
+    return jsonify(msg), 200
 
 if __name__ == '__main__':
     LOG_FILENAME = 'form.log'
@@ -35,4 +49,4 @@ if __name__ == '__main__':
     handler.setFormatter(formatter)
     app.logger.addHandler(handler)
     CORS(app)
-    app.run(host='0.0.0.0', port=9009, debug=True)
+    app.run(host='0.0.0.0', port=9008, debug=True)
