@@ -43,4 +43,4 @@ if __name__ == '__main__':
     handler.setFormatter(formatter)
     app.logger.addHandler(handler)
     CORS(app)
-    app.run(host='0.0.0.0', port=9008, debug=True)
+    app.run(host='0.0.0.0', port=8096, debug=True)
