@@ -12,12 +12,6 @@ app = Flask(__name__, static_url_path='', static_folder='static')
 def index():
     return jsonify(msg='Hello, World!'), 200
 
-## curl -i -H "Content-Type: application/json" -X POST -d '{"title":"Read a book"}' http://uinnova.com:9009/form
-@app.route('/form', methods=['POST'])
-def get_form_details():
-    content = request.get_json()
-    app.logger.info(content)
-    return jsonify(content), 200
 
 @app.route('/dummy_api', methods=['GET'])
 def dummy_api():
@@ -41,7 +35,7 @@ def doorstatus():
     return jsonify(msg), 200
 
 if __name__ == '__main__':
-    LOG_FILENAME = 'form.log'
+    LOG_FILENAME = './entrypass_api.log'
     formatter = logging.Formatter(
         "[%(asctime)s] {%(pathname)s:%(lineno)d} %(levelname)s - %(message)s")
     handler = RotatingFileHandler(LOG_FILENAME, maxBytes=10000000, backupCount=5)
