@@ -22,6 +22,10 @@ def get_form_details():
 def dummy_api():
     return jsonify(msg='okey'), 200
 
+@app.route('/doorstatus', methods=['GET'])
+def doorstatus():
+    return jsonify(door01='open'), 200
+
 if __name__ == '__main__':
     LOG_FILENAME = 'form.log'
     formatter = logging.Formatter(

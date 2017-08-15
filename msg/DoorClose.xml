@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<Event xml:lang="en-US">
+	<ETYPE>
+		0
+	</ETYPE>
+	<TRDATE>
+		20170810
+	</TRDATE>
+	<TRTIME>
+		150110
+	</TRTIME>
+	<TRCODE>
+		Dg
+	</TRCODE>
+	<TRDESC>
+		Door Close
+	</TRDESC>
+	<TRID>
+		012345679AB
+	</TRID>
+	<DEVNAME>
+		D01
+	</DEVNAME>
+</Event>

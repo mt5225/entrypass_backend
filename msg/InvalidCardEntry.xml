@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<Event xml:lang="en-US">
+	<ETYPE>
+		0
+	</ETYPE>
+	<TRDATE>
+		20170811
+	</TRDATE>
+	<TRTIME>
+		142424
+	</TRTIME>
+	<TRCODE>
+		Cc
+	</TRCODE>
+	<TRDESC>
+		Unknown Card Number (Entry)
+	</TRDESC>
+	<CTRLIP>
+		192.168.1.156
+	</CTRLIP>
+	<CTRLNAME>
+		156
+	</CTRLNAME>
+	<DEVNAME>
+		D01
+	</DEVNAME>
+	<CARDNO>
+		0005001756
+	</CARDNO>
+	<STAFFNO>
+	</STAFFNO>
+	<STAFFNAME>
+		Unlisted User
+	</STAFFNAME>
+	<DEPTNAME>
+	</DEPTNAME>
+	<JOBNAME>
+	</JOBNAME>
+	<SHIFTNAME>
+	</SHIFTNAME>
+	<ZONENAME>
+	</ZONENAME>
+	<POINTNAME>
+	</POINTNAME>
+</Event>
