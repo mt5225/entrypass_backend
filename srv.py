@@ -36,7 +36,7 @@ def save_to_db(xmlstring):
 
 def main():
     serversocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    serversocket.bind(('localhost', 8095))
+    serversocket.bind(('0.0.0.0', 8095))
     serversocket.listen(5) # become a server socket, maximum 5 connections
 
     while True:
