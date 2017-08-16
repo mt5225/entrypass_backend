@@ -14,7 +14,7 @@ def send_message(message):
     """ send message to server
     """
     clientsocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    #clientsocket.connect(('localhost', 8095))
+    #clientsocket.connect(('localhost', 9005))
     clientsocket.connect(('uinnova.com', 9005))
     clientsocket.send(message)
 

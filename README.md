@@ -5,8 +5,8 @@ python app.py
 python srv.py
 
 ## service ports
-- socket server: 8095
-- api server : 8096
+- socket server: 9005
+- api server : 9006
 
 
 ## query door status
