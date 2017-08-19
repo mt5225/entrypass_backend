@@ -5,6 +5,7 @@
 var d01 = object.find("d01");
 var d02 = object.find("d02");
 var ui = null;
+var listening = false;
 
 // ----------------------------------
 // set init door status to Dg/close
@@ -15,7 +16,6 @@ d01.addProperty("device_id", "D01");
 d01.addProperty("status", "Dg");
 d02.addProperty("device_id", "D02");
 d02.addProperty("status", "Dg");
-
 
 function change_ui_image(ui) {
 	var urlBase = "http://www.3dmomoda.com/mmdclient/script/examples/demos/";
@@ -133,22 +133,25 @@ gui.createButton("Close D02", Rect(40, 180, 70, 30), function () {
 });
 
 gui.createButton("Listen", Rect(40, 220, 60, 30), function () {
-	util.setInterval(function () {
-		util.download({
-			"url": "http://uinnova.com:9009/doorstatus",
-			"type": "text",
-			"success": function (t) {
-				t = string.trim(t);
-				msgArray = string.split(t, ":");
-				var door_id = msgArray[0];
-				var status = msgArray[1];
-				change_door_status(door_id, status);
-			},
-			"error": function (t) {
-				print(t);
-			}
-		});
-	}, 1500);
+	if (listening == false) {
+		listening = true;
+		util.setInterval(function () {
+			util.download({
+				"url": "http://uinnova.com:9009/doorstatus",
+				"type": "text",
+				"success": function (t) {
+					t = string.trim(t);
+					msgArray = string.split(t, ":");
+					var door_id = msgArray[0];
+					var status = msgArray[1];
+					change_door_status(door_id, status);
+				},
+				"error": function (t) {
+					print(t);
+				}
+			});
+		}, 1200);
+	}
 });
 
 gui.createButton("Reset", Rect(40, 260, 60, 30), function () {
@@ -157,6 +160,8 @@ gui.createButton("Reset", Rect(40, 260, 60, 30), function () {
 		"target": Vector3(3, 4, 5),
 		"time": 1,
 		"complete": function () {
+			util.clearAllTimers();
+			listening = false;
 			ui.setObject(null, null);
 		}
 	});
