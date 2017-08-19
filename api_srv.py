@@ -1,10 +1,10 @@
 #!/usr/bin/python
-from flask import Flask, jsonify
-from flask import request
+import sqlite3
 import logging
+from flask import Flask, jsonify
 from logging.handlers import RotatingFileHandler
 from flask_cors import CORS
-import sqlite3
+
 
 app = Flask(__name__, static_url_path='', static_folder='static')
 
