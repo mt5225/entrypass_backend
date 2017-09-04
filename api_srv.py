@@ -4,16 +4,11 @@ import logging
 from flask import Flask, jsonify
 from logging.handlers import RotatingFileHandler
 from flask_cors import CORS
-
+from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__, static_url_path='', static_folder='static')
-conn = sqlite3.connect('./entrypass.db')
-cur = conn.cursor()
-
-def clean_db():
-    cur.execute("DELETE FROM live")
-    conn.commit()
-
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///./entrypass.db'
+db = SQLAlchemy(app)
 
 @app.route('/')
 def index():
@@ -28,17 +23,13 @@ def dummy_api():
 def doorstatus():
     msg = {}
     msg_short = "" 
-    try:
-        cur.execute("SELECT rowid,* FROM live ORDER BY ROWID DESC LIMIT 1")
-        data = cur.fetchone()
-        msg=dict(zip(['ROWID', 'ETYPE','TRDATE','TRTIME','TRCODE','TRDESC', 'TRID', 'DEVNAME'], [x for x in data]))
-        msg_short="{0}:{1}".format(data[7],data[4])  
-    except sqlite3.Error, e:
-        print "Error %s:" % e.args[0]
+    result = db.engine.execute("SELECT rowid,* FROM live ORDER BY ROWID DESC LIMIT 1")
+    data = result.fetchone()
+    msg=dict(zip(['ROWID', 'ETYPE','TRDATE','TRTIME','TRCODE','TRDESC', 'TRID', 'DEVNAME'], [x for x in data]))
+    msg_short="{0}:{1}".format(data[7],data[4])
     return msg_short, 200
 
 if __name__ == '__main__':
-    clean_db()
     LOG_FILENAME = './entrypass_api.log'
     formatter = logging.Formatter(
         "[%(asctime)s] {%(pathname)s:%(lineno)d} %(levelname)s - %(message)s")
