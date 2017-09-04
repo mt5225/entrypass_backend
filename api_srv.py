@@ -28,7 +28,7 @@ def doorstatus():
     msg_short = "" 
     result = db.engine.execute("SELECT rowid,* FROM live ORDER BY ROWID DESC LIMIT 1")
     data = result.fetchone()
-    if len(data) == 0:
+    if data is None:
         msg_short = "D01:Dc"
     msg=dict(zip(['ROWID', 'ETYPE','TRDATE','TRTIME','TRCODE','TRDESC', 'TRID', 'DEVNAME'], [x for x in data]))
     msg_short="{0}:{1}".format(data[7],data[4])
