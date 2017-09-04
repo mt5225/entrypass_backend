@@ -10,6 +10,10 @@ app = Flask(__name__, static_url_path='', static_folder='static')
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///./entrypass.db'
 db = SQLAlchemy(app)
 
+def clean_db():
+    db.engine.execute("DELETE FROM live")
+    db.engine.commit()
+
 @app.route('/')
 def index():
     return jsonify(msg='Hello, World!'), 200
@@ -25,6 +29,8 @@ def doorstatus():
     msg_short = "" 
     result = db.engine.execute("SELECT rowid,* FROM live ORDER BY ROWID DESC LIMIT 1")
     data = result.fetchone()
+    if len(data) == 0:
+        msg_short = "D01:Dc"
     msg=dict(zip(['ROWID', 'ETYPE','TRDATE','TRTIME','TRCODE','TRDESC', 'TRID', 'DEVNAME'], [x for x in data]))
     msg_short="{0}:{1}".format(data[7],data[4])
     return msg_short, 200
@@ -38,4 +44,5 @@ if __name__ == '__main__':
     handler.setFormatter(formatter)
     app.logger.addHandler(handler)
     CORS(app)
+    clean_db()
     app.run(host='0.0.0.0', port=9009, debug=True)
