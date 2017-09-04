@@ -7,6 +7,13 @@ from flask_cors import CORS
 
 
 app = Flask(__name__, static_url_path='', static_folder='static')
+conn = sqlite3.connect('./entrypass.db')
+cur = conn.cursor()
+
+def clean_db():
+    cur.execute("DELETE FROM live")
+    conn.commit()
+
 
 @app.route('/')
 def index():
@@ -22,22 +29,16 @@ def doorstatus():
     msg = {}
     msg_short = "" 
     try:
-        conn = sqlite3.connect('./entrypass.db')
-        cur = conn.cursor()
         cur.execute("SELECT rowid,* FROM live ORDER BY ROWID DESC LIMIT 1")
         data = cur.fetchone()
         msg=dict(zip(['ROWID', 'ETYPE','TRDATE','TRTIME','TRCODE','TRDESC', 'TRID', 'DEVNAME'], [x for x in data]))
-        msg_short="{0}:{1}".format(data[7],data[4])
-        conn.commit()
+        msg_short="{0}:{1}".format(data[7],data[4])  
     except sqlite3.Error, e:
         print "Error %s:" % e.args[0]
-    finally:
-        if conn:
-            conn.close()
-    #return jsonify(msg_short), 200
     return msg_short, 200
 
 if __name__ == '__main__':
+    clean_db()
     LOG_FILENAME = './entrypass_api.log'
     formatter = logging.Formatter(
         "[%(asctime)s] {%(pathname)s:%(lineno)d} %(levelname)s - %(message)s")
