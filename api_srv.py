@@ -5,6 +5,7 @@ from flask import Flask, jsonify
 from logging.handlers import RotatingFileHandler
 from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
+from types import NoneType
 
 app = Flask(__name__, static_url_path='', static_folder='static')
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///./entrypass.db'
@@ -30,8 +31,9 @@ def doorstatus():
     data = result.fetchone()
     if data is None:
         msg_short = "D01:Dc"
-    msg=dict(zip(['ROWID', 'ETYPE','TRDATE','TRTIME','TRCODE','TRDESC', 'TRID', 'DEVNAME'], [x for x in data]))
-    msg_short="{0}:{1}".format(data[7],data[4])
+    else:
+        msg=dict(zip(['ROWID', 'ETYPE','TRDATE','TRTIME','TRCODE','TRDESC', 'TRID', 'DEVNAME'], [x for x in data]))
+        msg_short="{0}:{1}".format(data[7],data[4])
     return msg_short, 200
 
 if __name__ == '__main__':
