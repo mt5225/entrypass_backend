@@ -12,7 +12,6 @@ db = SQLAlchemy(app)
 
 def clean_db():
     db.engine.execute("DELETE FROM live")
-    db.engine.commit()
 
 @app.route('/')
 def index():
