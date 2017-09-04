@@ -30,7 +30,12 @@ def save_to_db(xmlstring):
     TRDATE = docroot.find('TRDATE').text.strip()
     TRTIME = docroot.find('TRTIME').text.strip()
     TRDESC = docroot.find('TRDESC').text.strip()
+<<<<<<< HEAD
+    #TRID = docroot.find('STAFFNO').text.strip()
+    TRID = 'abc'
+=======
     TRID = docroot.find('STAFFNO').text.strip()
+>>>>>>> a0d9f46daa5fa398fb92326325d4a34e2a345964
     DEVNAME = docroot.find('DEVNAME').text.strip()
     try:
         conn = sqlite3.connect('./entrypass.db')
