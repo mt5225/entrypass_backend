@@ -53,11 +53,21 @@ function fly_and_change(door, status) {
 		camera.flyTo({
 			"eye": door.center + Vector3(1.5, 1.5, 5),
 			"target": door.center,
-			"time": 1.5,
+			"time": 0.5,
 			"complete": function () {
 				door.setColorFlash(false);
 				show_banner(door, door.getProperty("device_id") + " Closed");
 				door.Close();
+				util.setTimeout(function () {
+					camera.flyTo({
+						"eye": Vector3(20, 40, -50),
+						"target": Vector3(3, 4, 5),
+						"time": 1,
+						"complete": function () {
+							ui.setObject(null, null);
+						}
+					});
+				}, 2000);
 			}
 		});
 	}
@@ -107,7 +117,17 @@ gui.createButton("Close D01", Rect(40, 100, 70, 30), function () {
 	d01.setColorFlash(false);
 	show_banner(d01, "D01 Closed");
 	d01.Close();
-	d01.addProperty("status", "Dg");
+	util.setTimeout(function () {
+		camera.flyTo({
+			"eye": Vector3(20, 40, -50),
+			"target": Vector3(3, 4, 5),
+			"time": 1,
+			"complete": function () {
+				d01.addProperty("status", "Dg");
+				ui.setObject(null, null);
+			}
+		});
+	}, 2000);
 });
 
 gui.createButton("Open D02", Rect(40, 140, 70, 30), function () {
@@ -129,7 +149,17 @@ gui.createButton("Close D02", Rect(40, 180, 70, 30), function () {
 	d02.setColorFlash(false);
 	show_banner(d02, "D02 Close");
 	d02.Close();
-	d02.addProperty("status", "Dg");
+	util.setTimeout(function () {
+		camera.flyTo({
+			"eye": Vector3(20, 40, -50),
+			"target": Vector3(3, 4, 5),
+			"time": 1,
+			"complete": function () {
+				d02.addProperty("status", "Dg");
+				ui.setObject(null, null);
+			}
+		});
+	}, 2000);
 });
 
 gui.createButton("Listen", Rect(40, 220, 60, 30), function () {
@@ -150,7 +180,7 @@ gui.createButton("Listen", Rect(40, 220, 60, 30), function () {
 					print(t);
 				}
 			});
-		}, 1200);
+		}, 2000);
 	}
 });
 
